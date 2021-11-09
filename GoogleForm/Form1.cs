@@ -1,10 +1,13 @@
-﻿using System;
+﻿using IniFiles;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,13 +16,13 @@ namespace GoogleForm
 {
     public partial class Form1 : Form
     {
-        IniManager iniManager = new IniManager(".\\settings.ini");
+        static string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        IniFile ini = new IniFile(Path.Combine(assemblyPath, "settings.ini"));
         string url = "https://docs.google.com/forms/d/e/1FAIpQLSeI1A97JjEdiGwgXrMLpM-VeYpgYDnD0TGZakz9EYu8SZGh_A/formResponse";
         public Form1()
         {
             InitializeComponent();
-
-            string name = iniManager.ReadIniFile("option", "username", "大囧");
+            string name = ini.ReadString("option", "username");
             TextBox_Username.Text = name.Trim();
             DateTimePicker.Text = DateTime.Now.ToShortTimeString();
             RichTextBox_Result.Text = string.Empty;
@@ -30,7 +33,7 @@ namespace GoogleForm
         {
             RichTextBox_Result.Text = string.Empty;
 
-            string dept = iniManager.ReadIniFile("option", "dept", "應用服務部");
+            string dept = ini.ReadString("option", "dept");
             DateTime dt = DateTimePicker.Value;
 
             string place = string.Empty;
@@ -60,7 +63,7 @@ namespace GoogleForm
             //if (!string.IsNullOrWhiteSpace(RichTextBox_Memo.Text.Trim()))
             //    fields.Add("entry.1443228459", RichTextBox_Memo.Text.Trim());
 
-            
+
             //var response = await client.PostAsync(url, content);
 
             // Use the StatusCode and Response Content
