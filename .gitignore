@@ -1,0 +1,6 @@
+bin/*
+obj/*
+GoogleForm/bin
+GoogleForm/obj
+.vscode/*
+.vs/*
